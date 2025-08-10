@@ -1,0 +1,168 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Software Specification",
+  "type": "object",
+  "required": [
+    "id",
+    "status",
+    "created",
+    "title",
+    "type",
+    "description",
+    "why",
+    "requirements"
+  ],
+  "properties": {
+    "id": {
+      "type":"string",
+      "format": "uuid"
+    },
+    "status": {
+      "type": "string",
+      "oneOf": [
+        {
+          "const": "Draft",
+          "description": "Still being written, analysed or reviewed. Not ready to be worked on yet."
+        },
+        {
+          "const": "Review",
+          "description": "Tickets in this phase may only be reviewed. They may not be worked on! This phase is for both human and agentic actors. The change file is to be reviewed by a human or agent that is going to implement it. Questions may be asked during this phase. Answers to those questions will result in more clear or missing requirements, altered description etc. Anything that isn't clear in this phase should be surfaced. Also relevant files should be added to the ticket in the review phase. Also fixing typos or making the texts in the change files more fluent is the purpose of the review phase."
+        },
+        {
+          "const": "Ready-For-Work",
+          "description": "Ready for developers/agents to pick up and work on."
+        },
+        {
+          "const": "In-Progress",
+          "description": "Currently being implemented. Should be set as such as soon as work is done for it."
+        },
+        {
+          "const": "Testing",
+          "description": "The status of the ticket is moved to this status as soon as the developer (human or agent) thinks it is ready for testing."
+        },
+        {
+          "const": "Done",
+          "description": "Fully implemented and tested. This status is not set by agents, but by a user just before merging the changes."
+        }
+      ],
+      "description": "The current status of this change."
+    },
+    "created": {
+      "type": "string",
+      "format": "date",
+      "description": "The date when this ticket was first defined"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the software change to accomplish."
+    },
+    "type": {
+      "description": "The type of this ticket.",
+      "oneOf": [
+        {
+          "const": "bugfix",
+          "description": "There is a bug that needs to be fixed. This change describes the bug, and possibly a suggested fix."
+        },
+        {
+          "const": "chore",
+          "description": "Minor tasks that do not directly affect the application's functionality but are necessary, such as dependency updates or build script tweaks."
+        },
+        {
+          "const": "documentation",
+          "description": "Changes to improve or add documentation. May refer to code comments, README files, or internal wikis."
+        },                
+        {
+          "const": "feature",
+          "description": "This change describes a new feature that adds functional value to the end user."
+        },
+        {
+          "const": "performance",
+          "description": "The change describes a performance issue or needed improvement. The implementation should not result in any functional changes."
+        },
+        {
+          "const": "refactor",
+          "description": "Code structure is improved without changing its external behavior. May improve readability, maintainability, or testability."
+        },        
+        {
+          "const": "spike",
+          "description": "A spike mean something is investigated and the options are weighed using pros and cons and considering trade offs.The result of a spike should be another change file, that contains in detail a change to be worked on."
+        },
+        {
+          "const": "technical-debt",
+          "description": "This change describes something that isn't quiet right, yet is no issue necessarily but should be reworked some time to ease future development."
+        },
+        {
+          "const": "test",
+          "description": "Tasks focused on adding or improving automated test coverage, test helpers, or test infrastructure."
+        }        
+      ]
+    },
+    "description": {
+      "type": "string",
+      "description": "High-level overview of what this change should accomplish."
+    },
+    "why": {
+      "type": "string",
+      "description": "Motivation and reasoning behind the change."
+    },
+    "requirements": {
+      "type": "object",
+      "required": [
+        "functional",
+        "technical"
+      ],
+      "properties": {
+        "functional": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of functional requirements"
+        },
+        "technical": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of implementation, technical or system-level requirements"
+        }
+      },
+      "description": "Grouped functional and technical requirements"
+    },
+    "related": {
+      "type": "object",
+      "properties": {
+        "documents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Links or file paths to relevant documentation"
+        }
+      }
+    },
+    "test-plan": {
+      "type": "object",
+      "properties": {
+        "unitTests": {
+          "type": "string"
+        },
+        "integrationTests": {
+          "type": "string"
+        },
+        "plan": {
+          "type": "string",
+          "description": "Outlines the plan for testing."
+        }
+      },
+      "description": "Test plan covering unit and integration tests"
+    },
+    "remarks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Any remarks that may be helpful for accomplishing this change."
+    }
+  }
+}
