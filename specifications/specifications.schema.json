@@ -141,22 +141,6 @@
         }
       }
     },
-    "test-plan": {
-      "type": "object",
-      "properties": {
-        "unitTests": {
-          "type": "string"
-        },
-        "integrationTests": {
-          "type": "string"
-        },
-        "plan": {
-          "type": "string",
-          "description": "Outlines the plan for testing."
-        }
-      },
-      "description": "Test plan covering unit and integration tests"
-    },
     "remarks": {
       "type": "array",
       "items": {
