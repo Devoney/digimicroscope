@@ -1,0 +1,46 @@
+{
+  "id": "fec51c22-c79d-4c74-bba9-f7a83ec0cedb",
+  "status": "Draft",
+  "created": "2025-08-10",
+  "title": "Add color filter menu with live color distribution graph",
+  "type": "feature",
+  "description": "Add a new menu icon to the camera top bar for color filtering, opening a menu that displays a live color distribution graph (from blue to red) used for digiscopy.",
+  "why": "Providing real-time visualization of color distribution assists users using a microscope for digiscopy to adjust color filters before capture.",
+  "requirements": {
+    "functional": [
+      "Add a new menu icon to the left of the Settings button in the top bar. The icon should depict a microscope or color picker to clarify its purpose.",
+      "When the icon is pressed, open a menu structured like existing top-bar menus.",
+      "Inside the menu, display a graph showing the distribution of colors from blue to red in the current camera view.",
+      "Graph segments' heights are proportional to the relative pixel counts for each color bin, summing to 100% of frame pixels.",
+      "Graph updates approximately once per second to reflect live preview.",
+      "Apply sensible color binning so the number of bins fits on screen in portrait orientation.",
+      "Menu serves as a starting point for future color filters."
+    ],
+    "technical": [
+      "Integrate a new viewfinder plugin responsible for computing color histograms from preview frames and rendering the color distribution graph.",
+      "Reuse existing plugin/menu infrastructure so the new menu behaves like other top-bar menus.",
+      "Sample preview frames at roughly 1Hz and compute color bin percentages; ensure updates do not block UI thread.",
+      "Use a color range spanning blue through red when rendering the graph.",
+      "Ensure total of all bins equals 100%; normalize counts accordingly.",
+      "Add resource entries for the new icon and any user-visible strings.",
+      "Place the menu icon immediately to the left of the Settings button in `gui_almalence_layout.xml` and update related event handlers."
+    ]
+  },
+  "related": {
+    "documents": [
+      "res/layout/gui_almalence_layout.xml",
+      "src/com/almalence/opencam/ui/AlmalenceGUI.java",
+      "src/com/almalence/opencam/ApplicationScreen.java",
+      "src/com/almalence/opencam/PluginManager.java",
+      "src/com/almalence/plugins/vf/histogram/HistogramVFPlugin.java",
+      "src/com/almalence/plugins/vf/colorfilter/ColorFilterVFPlugin.java",
+      "res/layout/plugin_vf_colorfilter_layout.xml",
+      "res/drawable/gui_almalence_color_menu.png",
+      "res/values/strings_almalence_gui.xml"
+    ]
+  },
+  "remarks": [
+    "Graph should be semi-continuous; avoid full 24-bit histogram by grouping colors into a manageable number of bins.",
+    "Future tasks will implement actual color filtering; current scope is visualization only."
+  ]
+}
